@@ -8,3 +8,4 @@
 
 - **[panchanga](https://github.com/hgharsha/panchanga)**
 - **[video-publisher-info](https://github.com/hgharsha/video-publisher-info)**
+- **[privacy-hybrid](https://github.com/hgharsha/privacy-hybrid)**: a private-by-design assistant. Personal data is masked on your own computer before any cloud model sees it, and the most sensitive data never leaves at all. Free, MIT licensed, shared at your own risk.
