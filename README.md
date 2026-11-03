@@ -1,6 +1,6 @@
 <p align="center"><img src="logo.webp" alt="Two-headed peacock emblem" width="220"></p>
 
-# Hi, I'm Jignasu
+# Hi, I'm Harsha
 
 *Wisdom isn't knowing everything; it's being a Jignasu for life.* (Jignasu: one eager to learn.)
 
