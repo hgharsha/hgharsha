@@ -57,4 +57,23 @@ Read this first in a new session. Related files in this repo: `z-workstation-bur
 
 ## Open questions
 - Which area of IT the owner wants as the first niche, goal for the next 2-3 months, weekly time available, and who the first customer or employer might be.
-- Output of the Ubuntu live session commands.
+- Output of the Ubuntu live session commands (answered below).
+
+## Update (same day, later)
+- Ubuntu live check: 125 GiB RAM (= 128 GiB), 96 logical CPUs, 2 sockets x 24 cores, Xeon Platinum 8160, AVX-512 present, one disk `sda` (Crucial CT1000BX500SSD1, 931.5 GB, SATA, budget SSD).
+- HP Processor stress test: 902 seconds, only 64 of 96 processors tested (tool limit, not a fault), temperatures 39-57 C, no failure. HP memory test is Quick only (about 59 min).
+- Secure Boot is disabled in the BIOS (the installer said so), so no MOK key enrollment is needed for the NVIDIA driver.
+- First install attempt hung at the early network step and the USB stick was briefly not recognized. The disk was untouched. The second attempt reached the final "Review your choices" screen (newer Ubuntu installer, probably 24.04 or later; the exact version is unconfirmed).
+- Install choices: Erase disk, ext4 on `sda` (sda1 fat32 /boot/efi, sda2 ext4 /), no encryption, "Codecs & drivers" ticked. Windows is being wiped. Backup and exported license are on another disk.
+- Plans: hostname `satya-lab`, password login required, run LLM tools as systemd services (Ollama installs its own; llama.cpp and MCP servers need their own unit files).
+- Windows-based tests were skipped because Windows is being wiped. Do the equivalents in Ubuntu.
+- Placement: floor under the table, 10-15 cm clear behind, front open, hard surface or small stand, clean dust every few months.
+
+## To do after the first Ubuntu boot
+1. `sudo apt update && sudo apt full-upgrade -y`, then `ubuntu-drivers devices`, `sudo ubuntu-drivers install`, reboot, `nvidia-smi` (should show the Quadro P4000).
+2. `sudo dmidecode -t memory | grep -E "Locator:|Size:|Speed:|Manufacturer:|Part Number:"` to see RAM population.
+3. `sudo apt install -y smartmontools lm-sensors stress-ng memtester numactl edac-utils`, then `sudo smartctl -a /dev/sda`.
+4. `stress-ng --cpu 0 --timeout 2h --metrics-brief` with `sensors` in a second terminal (loads all 96 threads). `sudo memtester 100G 1`. Check `edac-util -v` for ECC errors, and `sudo dmesg -T | grep -i -E "mce|machine check|edac|error"`.
+5. MemTest86 overnight from a USB stick (deepest memory check).
+6. BIOS: set "After power loss" to power on, if available.
+7. Then llama.cpp (CUDA 12.x for Pascal), a small MoE model, then a roughly 100B MoE model, then the RAG project.
